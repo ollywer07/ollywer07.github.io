@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Especial — Fim de Semana</title>
+    <style>
+        :root {
+            --bg-dark: #0f1117;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.16);
+            --accent-fri: #ff6b35;
+            --accent-fri-glow: rgba(255, 107, 53, 0.35);
+            --accent-sat: #00d2d3;
+            --accent-sat-glow: rgba(0, 210, 211, 0.35);
+            --accent-both: #feca57;
+            --accent-both-glow: rgba(254, 202, 87, 0.35);
+            --text-main: #f8f9fa;
+            --text-muted: #adb5bd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 15% 15%, rgba(255, 107, 53, 0.22) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 85%, rgba(0, 210, 211, 0.22) 0%, transparent 45%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(22, 26, 36, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 26px;
+            padding: 28px 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--accent-both);
+            margin-bottom: 12px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.9rem;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.94rem;
+            line-height: 1.45;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 13px 15px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-both);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .sr-radio {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            margin: 0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            padding: 15px 16px;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+        }
+
+        .icon-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .option-info {
+            flex: 1;
+        }
+
+        .option-day {
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+        }
+
+        .option-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .option-desc {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .radio-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+        }
+
+        /* Pure CSS Checked States */
+        .card-fri .option-day { color: var(--accent-fri); }
+        #opt-sexta:checked + .card-fri,
+        .card-fri.selected {
+            border-color: var(--accent-fri);
+            background: rgba(255, 107, 53, 0.18);
+            box-shadow: 0 6px 20px var(--accent-fri-glow);
+        }
+        #opt-sexta:checked + .card-fri .radio-circle,
+        .card-fri.selected .radio-circle {
+            border-color: var(--accent-fri);
+            background: var(--accent-fri);
+        }
+
+        .card-sat .option-day { color: var(--accent-sat); }
+        #opt-sabado:checked + .card-sat,
+        .card-sat.selected {
+            border-color: var(--accent-sat);
+            background: rgba(0, 210, 211, 0.18);
+            box-shadow: 0 6px 20px var(--accent-sat-glow);
+        }
+        #opt-sabado:checked + .card-sat .radio-circle,
+        .card-sat.selected .radio-circle {
+            border-color: var(--accent-sat);
+            background: var(--accent-sat);
+        }
+
+        .card-both .option-day { color: var(--accent-both); }
+        #opt-ambos:checked + .card-both,
+        .card-both.selected {
+            border-color: var(--accent-both);
+            background: rgba(254, 202, 87, 0.18);
+            box-shadow: 0 6px 20px var(--accent-both-glow);
+        }
+        #opt-ambos:checked + .card-both .radio-circle,
+        .card-both.selected .radio-circle {
+            border-color: var(--accent-both);
+            background: var(--accent-both);
+        }
+
+        .card-none .option-day { color: #ff7675; }
+        #opt-nao:checked + .card-none,
+        .card-none.selected {
+            border-color: #ff7675;
+            background: rgba(255, 118, 117, 0.16);
+        }
+        #opt-nao:checked + .card-none .radio-circle,
+        .card-none.selected .radio-circle {
+            border-color: #ff7675;
+            background: #ff7675;
+        }
+
+        .sr-radio:checked + .option-card .radio-circle::after,
+        .option-card.selected .radio-circle::after {
+            transform: scale(1);
+        }
+
+        /* Response Box */
+        .response-area {
+            background: rgba(0, 0, 0, 0.42);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            padding: 16px;
+            transition: border-color 0.25s ease;
+        }
+
+        .response-area.ready {
+            border-color: rgba(254, 202, 87, 0.65);
+        }
+
+        .preview-label {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-text {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            color: #ffffff;
+            margin-bottom: 14px;
+            resize: none;
+            outline: none;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 15px 18px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-disabled {
+            opacity: 0.45;
+        }
+
+        .options:has(.sr-radio:checked) ~ .response-area {
+            border-color: rgba(254, 202, 87, 0.65);
+        }
+        .options:has(.sr-radio:checked) ~ .response-area .btn-disabled {
+            opacity: 1 !important;
+        }
+
+        .toast-alert {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #feca57;
+            min-height: 20px;
+            font-weight: 600;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <main class="container">
+        <header>
+            <span class="badge">Convite Especial</span>
+            <h1>Bora curtir esse fim de semana?</h1>
+            <p class="subtitle">Toque no dia que você quer ir (ou nos dois!), copie a resposta ou envie direto no WhatsApp.</p>
+        </header>
+
+        <div class="input-group">
+            <label for="guest-name">Seu nome (opcional):</label>
+            <input type="text" id="guest-name" placeholder="Digite seu nome aqui...">
+        </div>
+
+        <section class="options" id="options-list" aria-label="Opções de data">
+            <!-- Opção 1: Sexta -->
+            <input type="radio" name="convite_opcao" id="opt-sexta" value="sexta" class="sr-radio">
+            <label for="opt-sexta" class="option-card card-fri" data-val="sexta">
+                <div class="icon-box">🍖</div>
+                <div class="option-info">
+                    <div class="option-day">Sexta-feira • Dia 20</div>
+                    <div class="option-title">Noite da Costelinha</div>
+                    <div class="option-desc">Costelinha caprichada e resenha boa</div>
+                </div>
+                <div class="radio-circle"></div>
+            </label>
+
+            <!-- Opção 2: Sábado -->
+            <input type="radio" name="convite_opcao" id="opt-sabado" value="sabado" class="sr-radio">
+            <label for="opt-sabado" class="option-card card-sat" data-val="sabado">
+                <div class="icon-box">🍤</div>
+                <div class="option-info">
+                    <div class="option-day">Sábado • Dia 21</div>
+                    <div class="option-title">Moqueca, Piscina & Cerveja</div>
+                    <div class="option-desc">Moqueca de camarão, piscininha e cerveja gelada</div>
+                </div>
+                <div class="radio-circle"></div>
+            </label>
+
+            <!-- Opção 3: Ambos -->
+            <input type="radio" name="convite_opcao" id="opt-ambos" value="ambos" class="sr-radio">
+            <label for="opt-ambos" class="option-card card-both" data-val="ambos">
+                <div class="icon-box">🔥</div>
+                <div class="option-info">
+                    <div class="option-day">Combo Completo • Dias 20 e 21</div>
+                    <div class="option-title">Vou nos dois dias!</div>
+                    <div class="option-desc">Presença garantida na costelinha e na moqueca</div>
+                </div>
+                <div class="radio-circle"></div>
+            </label>
+
+            <!-- Opção 4: Não -->
+            <input type="radio" name="convite_opcao" id="opt-nao" value="nao" class="sr-radio">
+            <label for="opt-nao" class="option-card card-none" data-val="nao">
+                <div class="icon-box">😢</div>
+                <div class="option-info">
+                    <div class="option-day">Dessa vez não dá</div>
+                    <div class="option-title">Não vou conseguir ir</div>
+                    <div class="option-desc">Fica para a próxima oportunidade</div>
+                </div>
+                <div class="radio-circle"></div>
+            </label>
+        </section>
+
+        <section class="response-area" id="response-area">
+            <div class="preview-label">
+                <span>Sua resposta:</span>
+                <span id="status-badge">Toque acima para escolher</span>
+            </div>
+
+            <textarea id="preview-text" class="preview-text" rows="3" readonly placeholder="👆 Toque em uma das opções acima para gerar sua resposta..."></textarea>
+
+            <div class="btn-group">
+                <button type="button" class="btn-action btn-copy btn-disabled" id="btn-copy">
+                    <span id="copy-icon">📋</span>
+                    <span id="copy-label">Copiar Resposta</span>
+                </button>
+                <a class="btn-action btn-whatsapp btn-disabled" id="btn-whatsapp" href="https://wa.me/">
+                    <span>💬</span>
+                    <span>Enviar pelo WhatsApp</span>
+                </a>
+            </div>
+            <div class="toast-alert" id="toast-alert"></div>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            var mensagens = {
+                sexta: "Fala! Tô dentro do convite! 🍖 Vou na *Sexta (dia 20)* pra comer aquela costelinha!",
+                sabado: "Fala! Tô dentro do convite! 🍤🏊‍♂️🍺 Vou no *Sábado* pra moqueca de camarão, piscininha e cerveja!",
+                ambos: "Fala! Tô dentro do combo completo! 🔥 Vou na *Sexta (dia 20)* pra costelinha E no *Sábado* pra moqueca de camarão, piscininha e cerveja!",
+                nao: "Fala! Obrigado pelo convite, mas infelizmente dessa vez não vou conseguir ir. Marcamos na próxima! 🙏"
+            };
+
+            var radios = document.querySelectorAll('input[name="convite_opcao"]');
+            var labels = document.querySelectorAll('.option-card');
+            var nameInput = document.getElementById('guest-name');
+            var campoTexto = document.getElementById('preview-text');
+            var areaResposta = document.getElementById('response-area');
+            var badge = document.getElementById('status-badge');
+            var btnCopy = document.getElementById('btn-copy');
+            var btnWa = document.getElementById('btn-whatsapp');
+            var toastEl = document.getElementById('toast-alert');
+
+            function getOpcaoSelecionada() {
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        return radios[i].value;
+                    }
+                }
+                return null;
+            }
+
+            function gerarTextoFinal(escolha) {
+                if (!escolha || !mensagens[escolha]) return '';
+                var nome = nameInput ? nameInput.value.trim() : '';
+                var base = mensagens[escolha];
+                return nome ? ('Aqui é *' + nome + '*! ' + base) : base;
+            }
+
+            function montarUrlWhatsapp(texto) {
+                return 'https://wa.me/?text=' + encodeURIComponent(texto);
+            }
+
+            function mostrarAviso(texto) {
+                if (!toastEl) return;
+                toastEl.textContent = texto;
+                setTimeout(function () {
+                    if (toastEl.textContent === texto) {
+                        toastEl.textContent = '';
+                    }
+                }, 3500);
+            }
+
+            function resetarBotaoCopiar() {
+                btnCopy.classList.remove('copied');
+                document.getElementById('copy-icon').textContent = '📋';
+                document.getElementById('copy-label').textContent = 'Copiar Resposta';
+            }
+
+            function sincronizarInterface(dispararConfete) {
+                var escolha = getOpcaoSelecionada();
+
+                for (var i = 0; i < labels.length; i++) {
+                    var val = labels[i].getAttribute('data-val');
+                    if (val === escolha) {
+                        labels[i].classList.add('selected');
+                    } else {
+                        labels[i].classList.remove('selected');
+                    }
+                }
+
+                if (!escolha) return;
+
+                var textoFinal = gerarTextoFinal(escolha);
+                campoTexto.value = textoFinal;
+                areaResposta.classList.add('ready');
+                badge.textContent = 'Pronto para enviar!';
+
+                btnCopy.classList.remove('btn-disabled');
+                btnWa.classList.remove('btn-disabled');
+                btnWa.href = montarUrlWhatsapp(textoFinal);
+
+                if (dispararConfete && escolha !== 'nao') {
+                    soltarConfetes();
+                }
+            }
+
+            for (var i = 0; i < radios.length; i++) {
+                radios[i].addEventListener('change', function () {
+                    resetarBotaoCopiar();
+                    sincronizarInterface(true);
+                });
+            }
+
+            for (var j = 0; j < labels.length; j++) {
+                labels[j].addEventListener('click', function () {
+                    var self = this;
+                    setTimeout(function () {
+                        var val = self.getAttribute('data-val');
+                        var r = document.getElementById('opt-' + val);
+                        if (r && !r.checked) {
+                            r.checked = true;
+                        }
+                        resetarBotaoCopiar();
+                        sincronizarInterface(true);
+                    }, 10);
+                });
+            }
+
+            nameInput.addEventListener('input', function () {
+                sincronizarInterface(false);
+            });
+
+            btnCopy.addEventListener('click', function () {
+                var escolha = getOpcaoSelecionada();
+                if (!escolha) {
+                    mostrarAviso('⚠️ Toque em uma das opções acima primeiro!');
+                    return;
+                }
+
+                sincronizarInterface(false);
+                var texto = campoTexto.value;
+
+                function sucessoCopia() {
+                    btnCopy.classList.add('copied');
+                    document.getElementById('copy-icon').textContent = '✅';
+                    document.getElementById('copy-label').textContent = 'Resposta Copiada!';
+                    mostrarAviso('Copiado! Agora cole no WhatsApp.');
+                    setTimeout(resetarBotaoCopiar, 3500);
+                }
+
+                try {
+                    campoTexto.focus();
+                    campoTexto.select();
+                    campoTexto.setSelectionRange(0, 99999);
+                    if (document.execCommand('copy')) {
+                        sucessoCopia();
+                        return;
+                    }
+                } catch (e) {}
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(texto).then(sucessoCopia).catch(function () {
+                        mostrarAviso('Texto selecionado! Toque em "Copiar" no menu do celular.');
+                    });
+                } else {
+                    mostrarAviso('Texto selecionado! Toque em "Copiar" no menu do celular.');
+                }
+            });
+
+            // Redirecionamento direto na mesma aba para o app WhatsApp receber o parâmetro ?text= sem perda no redirect
+            btnWa.addEventListener('click', function (e) {
+                e.preventDefault();
+                var escolha = getOpcaoSelecionada();
+                if (!escolha) {
+                    mostrarAviso('⚠️ Toque em uma das opções acima primeiro!');
+                    return;
+                }
+                var textoFinal = gerarTextoFinal(escolha);
+                campoTexto.value = textoFinal;
+                var url = montarUrlWhatsapp(textoFinal);
+                btnWa.href = url;
+                window.location.href = url;
+            });
+
+            window.addEventListener('pageshow', function () {
+                sincronizarInterface(false);
+            });
+
+            // Confetes leves
+            var canvas = document.getElementById('confetti-canvas');
+            var ctx = canvas ? canvas.getContext('2d') : null;
+            var particles = [];
+            var animId = null;
+
+            function ajustarCanvas() {
+                if (!canvas) return;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', ajustarCanvas);
+            ajustarCanvas();
+
+            function soltarConfetes() {
+                if (!ctx) return;
+                var cores = ['#ff6b35', '#00d2d3', '#feca57', '#ff9ff3', '#54a0ff', '#1dd1a1'];
+                particles = [];
+                for (var i = 0; i < 60; i++) {
+                    particles.push({
+                        x: canvas.width / 2,
+                        y: canvas.height * 0.45,
+                        vx: (Math.random() - 0.5) * 14,
+                        vy: (Math.random() - 0.8) * 14 - 3,
+                        size: Math.random() * 7 + 4,
+                        color: cores[Math.floor(Math.random() * cores.length)],
+                        rotation: Math.random() * 360,
+                        rotSpeed: (Math.random() - 0.5) * 10,
+                        alpha: 1
+                    });
+                }
+                if (!animId) animarConfetes();
+            }
+
+            function animarConfetes() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = particles.length - 1; i >= 0; i--) {
+                    var p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.35;
+                    p.vx *= 0.98;
+                    p.rotation += p.rotSpeed;
+                    p.alpha -= 0.016;
+                    if (p.alpha <= 0) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    ctx.restore();
+                }
+                if (particles.length > 0) {
+                    animId = requestAnimationFrame(animarConfetes);
+                } else {
+                    animId = null;
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
